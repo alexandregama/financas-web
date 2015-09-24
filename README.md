@@ -37,4 +37,33 @@ O arquivo module.xml possui o seguinte conteúdo:
 </module>
 ```
 
+Edite o arquivo **standalone-ha.xml**
+```bash
+$ vim wildfly/standalone/configuration/standalone-ha.xml
+```
+
+E adicione o xml que configura o nosso novo driver
+
+```xml
+<driver name="com.mysql" module="com.mysql">
+    <xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
+</driver>
+```
+
+Ainda no arquivo **standalone-ha.xml** adicione o nosso datasource
+
+```xml
+ <datasource jndi-name="java:/fj25DS" pool-name="fj25DS" enabled="true" use-java-context="true">
+      <connection-url>jdbc:mysql://localhost:3306/fj25</connection-url>
+      <driver>com.mysql</driver>
+      <pool>
+          <min-pool-size>10</min-pool-size>
+          <max-pool-size>100</max-pool-size>
+          <prefill>true</prefill>
+      </pool>
+      <security>
+          <user-name>root</user-name>
+      </security>
+  </datasource>
+```
 
