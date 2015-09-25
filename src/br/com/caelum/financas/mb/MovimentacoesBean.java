@@ -1,12 +1,15 @@
 package br.com.caelum.financas.mb;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.caelum.financas.dao.ContaDao;
+import br.com.caelum.financas.dao.MovimentacaoDao;
+import br.com.caelum.financas.modelo.Conta;
 import br.com.caelum.financas.modelo.Movimentacao;
 import br.com.caelum.financas.modelo.TipoMovimentacao;
 
@@ -15,37 +18,52 @@ import br.com.caelum.financas.modelo.TipoMovimentacao;
 public class MovimentacoesBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
+	private MovimentacaoDao movimentacaoDao;
+	private ContaDao contaDao;
 	private List<Movimentacao> movimentacoes;
 	private Movimentacao movimentacao = new Movimentacao();
 	private Integer contaId;
 	private Integer categoriaId;
-	
-	
-	public void grava() {
-		System.out.println("Fazendo a gravacao da movimentacao");
-		
-		
-		limpaFormularioDoJSF();
+
+	@Inject
+	public MovimentacoesBean(MovimentacaoDao movimentacaoDao, ContaDao contaDao) {
+		this.movimentacaoDao = movimentacaoDao;
+		this.contaDao = contaDao;
+	}
+
+	@Deprecated //default constructor for CDI
+	MovimentacoesBean() {
 	}
 	
+	public void grava() {
+		Conta conta = contaDao.busca(contaId);
+		movimentacao.setConta(conta);
+		movimentacaoDao.adiciona(movimentacao);
+
+		limpaFormularioDoJSF();
+	}
 
 	public void remove() {
-		System.out.println("Removendo a movimentacao");
+		movimentacaoDao.remove(movimentacao);
 
-		
 		limpaFormularioDoJSF();
 	}
 
 	public List<Movimentacao> getMovimentacoes() {
+		if (movimentacoes == null) {
+			movimentacoes = movimentacaoDao.lista();
+		}
 		return movimentacoes;
 	}
-	
+
 	public Movimentacao getMovimentacao() {
-		if(movimentacao.getData()==null) {
-			movimentacao.setData(Calendar.getInstance());
-		}
 		return movimentacao;
+	}
+
+	private void limpaFormularioDoJSF() {
+		movimentacao = new Movimentacao();
+		movimentacoes = null;
 	}
 
 	public void setMovimentacao(Movimentacao movimentacao) {
@@ -59,7 +77,6 @@ public class MovimentacoesBean implements Serializable {
 	public void setContaId(Integer contaId) {
 		this.contaId = contaId;
 	}
-	
 
 	public Integer getCategoriaId() {
 		return categoriaId;
@@ -69,15 +86,8 @@ public class MovimentacoesBean implements Serializable {
 		this.categoriaId = categoriaId;
 	}
 
-	/**
-	 * Esse metodo apenas limpa o formulario da forma com que o JSF espera.
-	 * Invoque-o no momento manager que precisar do formulario vazio.
-	 */
-	private void limpaFormularioDoJSF() {
-		this.movimentacao = new Movimentacao();
-	}
-
 	public TipoMovimentacao[] getTiposDeMovimentacao() {
 		return TipoMovimentacao.values();
 	}
+
 }

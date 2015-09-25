@@ -55,6 +55,9 @@ public class Movimentacao implements Serializable {
 	}
 
 	public Calendar getData() {
+		if (data == null) {
+			data = Calendar.getInstance();
+		}
 		return data;
 	}
 
