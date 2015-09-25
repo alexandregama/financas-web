@@ -77,10 +77,10 @@ $ vim wildfly/standalone/configuration/standalone-ha.xml
 
 Altere o valor do **max-pool-size** da tag xml **bean-instance-pools**:
 
-```bash
+```xml
 <pools>
     <bean-instance-pools>
-                    <strict-max-pool name="slsb-strict-max-pool" max-pool-size="2" instance-acquisition-timeout="5" instance-acquisition-timeout-unit="MINUTES"/>
+                    <strict-max-pool name="slsb-strict-max-pool" max-pool-size="5" instance-acquisition-timeout="5" instance-acquisition-timeout-unit="MINUTES"/>
                     <strict-max-pool name="mdb-strict-max-pool" max-pool-size="20" instance-acquisition-timeout="5" instance-acquisition-timeout-unit="MINUTES"/>
     </bean-instance-pools>
 </pools>
