@@ -5,6 +5,7 @@ import javax.ejb.ScheduleExpression;
 import javax.ejb.Stateless;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
+import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
 
 @Stateless
@@ -19,7 +20,9 @@ public class AgendadorDeEmailComExpression {
 		expression.minute(minutos);
 		expression.second(segundos);
 		
-		timer.createCalendarTimer(expression);
+		TimerConfig config = new TimerConfig();
+		config.setPersistent(false);
+		timer.createCalendarTimer(expression, config);
 	}
 	
 	@Timeout

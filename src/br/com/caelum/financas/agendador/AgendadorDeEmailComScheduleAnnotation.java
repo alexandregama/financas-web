@@ -10,7 +10,7 @@ import javax.ejb.Startup;
 @Startup
 public class AgendadorDeEmailComScheduleAnnotation {
 
-	@Schedule(hour = "9", minute = "*", second = "*")
+	@Schedule(hour = "9", minute = "*", second = "*", persistent = false)
 	public void enviaEmail() {
 		System.out.println("Enviando email utilizando @Schedule");
 	}

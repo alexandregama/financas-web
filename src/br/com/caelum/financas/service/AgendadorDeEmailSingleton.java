@@ -22,6 +22,7 @@ public class AgendadorDeEmailSingleton {
 	@PostConstruct
 	public void posContrucao() {
 		System.out.println("Vai criar o timer..");
+		
 		timer.createTimer(2_000L, "Enviador de email Singleton");
 	}
 	
