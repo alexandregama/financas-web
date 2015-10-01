@@ -1,6 +1,7 @@
 package br.com.caelum.financas.dao;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import br.com.caelum.financas.exception.ValorMuitoAltoException;
+import br.com.caelum.financas.mb.ValoresPorMesEAno;
 import br.com.caelum.financas.modelo.Conta;
 import br.com.caelum.financas.modelo.Movimentacao;
 import br.com.caelum.financas.modelo.TipoMovimentacao;
@@ -115,6 +117,38 @@ public class MovimentacaoDao {
 		query.setParameter("titular", "%"+titular+"%");
 		
 		return query.getResultList();
+	}
+
+	public List<ValoresPorMesEAno> buscaPorMesEAnoUsandoArray(Conta conta,
+			TipoMovimentacao tipoMovimentacao) {
+		String jpql = 
+			"select " +
+			"	month(m.data), year(m.data), sum(m.valor) " +
+			"from " +
+			"	Movimentacao m " +
+			"where " +
+			"	m.tipoMovimentacao = :tipo and " +		
+			"	m.conta = :conta " +
+			"group by " +
+			"	month(m.data), year(m.data) ";
+		
+		TypedQuery<Object[]> query = manager.createQuery(jpql, Object[].class);
+		query.setParameter("tipo", tipoMovimentacao);
+		query.setParameter("conta", conta);
+		
+		List<Object[]> lista = query.getResultList();
+		
+		List<ValoresPorMesEAno> estatisticas = new ArrayList<>();
+		for (Object[] linha : lista) {
+			int mes = (int) linha[0];
+			int ano = (int) linha[1];
+			BigDecimal valor = new BigDecimal( String.valueOf(linha[2]));
+			
+			ValoresPorMesEAno estatistica = new ValoresPorMesEAno(mes, ano, valor);
+			estatisticas.add(estatistica);
+		}
+		
+		return estatisticas;
 	}
 	
 }
