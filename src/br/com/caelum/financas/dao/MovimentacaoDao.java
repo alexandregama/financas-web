@@ -92,5 +92,19 @@ public class MovimentacaoDao {
 		
 		return query.getResultList();
 	}
+
+	public BigDecimal getTotalPorContaETipo(Conta conta,
+			TipoMovimentacao tipoMovimentacao) {
+		String jpql = 
+			"select sum(m.valor) from Movimentacao m " +
+			"where "+
+			"	m.conta = :conta and " +
+			"	m.tipoMovimentacao = :tipo";
+		TypedQuery<BigDecimal> query = manager.createQuery(jpql, BigDecimal.class);
+		query.setParameter("conta", conta);
+		query.setParameter("tipo", tipoMovimentacao);
+		
+		return query.getSingleResult();
+	}
 	
 }
