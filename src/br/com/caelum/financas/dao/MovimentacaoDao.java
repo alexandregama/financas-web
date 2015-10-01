@@ -13,6 +13,7 @@ import javax.persistence.TypedQuery;
 import br.com.caelum.financas.exception.ValorMuitoAltoException;
 import br.com.caelum.financas.modelo.Conta;
 import br.com.caelum.financas.modelo.Movimentacao;
+import br.com.caelum.financas.modelo.TipoMovimentacao;
 
 @Stateless
 public class MovimentacaoDao {
@@ -76,6 +77,20 @@ public class MovimentacaoDao {
 	@PreDestroy
 	public void destroy() {
 		System.out.println("Bean de Movimentacao destruido");
+	}
+
+	public List<Movimentacao> listaPorValorETipo(BigDecimal valor,
+			TipoMovimentacao tipoMovimentacao) {
+		String jpql = 
+				"select m from Movimentacao m " + 
+				"where " +
+				"m.valor = :valor and " +
+				"m.tipoMovimentacao = :tipo";
+		TypedQuery<Movimentacao> query = manager.createQuery(jpql, Movimentacao.class);
+		query.setParameter("valor", valor);
+		query.setParameter("tipo", tipoMovimentacao);
+		
+		return query.getResultList();
 	}
 	
 }
