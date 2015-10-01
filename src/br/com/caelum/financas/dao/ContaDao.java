@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -13,7 +13,7 @@ import br.com.caelum.financas.exception.ContaAgenciaInvalidaException;
 import br.com.caelum.financas.exception.ContaTitularInvalidoException;
 import br.com.caelum.financas.modelo.Conta;
 
-@Stateful
+@Stateless
 public class ContaDao {
 
 	@PersistenceContext
