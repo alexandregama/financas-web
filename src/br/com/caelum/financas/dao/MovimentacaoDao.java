@@ -1,5 +1,6 @@
 package br.com.caelum.financas.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -16,7 +17,12 @@ public class MovimentacaoDao {
 	private EntityManager manager;
 
 	public void adiciona(Movimentacao movimentacao) {
+		
 		manager.persist(movimentacao);
+		
+		if (movimentacao.getValor().compareTo(BigDecimal.ZERO) == -1) {
+			throw new RuntimeException("O valor não pode ser negativo - sua transação sofreu Rollback");
+		}
 	}
 
 	public Movimentacao busca(Integer id) {
