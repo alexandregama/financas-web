@@ -3,6 +3,8 @@ package br.com.caelum.financas.dao;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,13 +12,17 @@ import javax.persistence.TypedQuery;
 
 import br.com.caelum.financas.exception.ValorMuitoAltoException;
 import br.com.caelum.financas.modelo.Movimentacao;
-import br.com.caelum.financas.modelo.TipoMovimentacao;
 
 @Stateless
 public class MovimentacaoDao {
 
 	@PersistenceContext
 	private EntityManager manager;
+	
+	@PostConstruct
+	public void posContrucao() {
+		System.out.println("Bean de Movimentacao construido");
+	}
 
 	public void adiciona(Movimentacao movimentacao) throws Exception {
 		
@@ -56,4 +62,9 @@ public class MovimentacaoDao {
 		manager.remove(movimentacaoParaRemover);
 	}
 
+	@PreDestroy
+	public void destroy() {
+		System.out.println("Bean de Movimentacao destruido");
+	}
+	
 }
