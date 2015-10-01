@@ -84,7 +84,7 @@ public class MovimentacaoDao {
 		String jpql = 
 				"select m from Movimentacao m " + 
 				"where " +
-				"m.valor = :valor and " +
+				"m.valor <= :valor and " +
 				"m.tipoMovimentacao = :tipo";
 		TypedQuery<Movimentacao> query = manager.createQuery(jpql, Movimentacao.class);
 		query.setParameter("valor", valor);
