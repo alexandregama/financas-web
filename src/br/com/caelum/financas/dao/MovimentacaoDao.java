@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import br.com.caelum.financas.exception.ValorMuitoAltoException;
+import br.com.caelum.financas.modelo.Conta;
 import br.com.caelum.financas.modelo.Movimentacao;
 
 @Stateless
@@ -41,6 +42,16 @@ public class MovimentacaoDao {
 		}
 	}
 
+	public List<Movimentacao> listaPorConta(Conta conta) {
+		String jpql = 
+				"select m from Movimentacao m where m.conta = :conta " + 
+				"order by m.valor desc";
+		TypedQuery<Movimentacao> query = manager.createQuery(jpql, Movimentacao.class);
+		query.setParameter("conta", conta);
+		
+		return query.getResultList();
+	}
+	
 	public Movimentacao busca(Integer id) {
 		return manager.find(Movimentacao.class, id);
 	}
