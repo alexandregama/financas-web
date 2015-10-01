@@ -33,7 +33,7 @@ public class MesesComMovimentacaoBean {
 	
 	public void lista() {
 		System.out.println("Listando as contas pelos valores movimentados no mes");
-		valoresPorMesEAno = movimentacaoDao.buscaPorMesEAnoUsandoArray(conta, tipoMovimentacao);
+		valoresPorMesEAno = movimentacaoDao.buscaPorMesEAnoUsandoConstructorExpression(conta, tipoMovimentacao);
 	}
 
 	public TipoMovimentacao getTipoMovimentacao() {

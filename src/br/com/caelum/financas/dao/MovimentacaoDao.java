@@ -150,5 +150,25 @@ public class MovimentacaoDao {
 		
 		return estatisticas;
 	}
+
+	public List<ValoresPorMesEAno> buscaPorMesEAnoUsandoConstructorExpression(
+			Conta conta, TipoMovimentacao tipoMovimentacao) {
+		String jpql = 
+			"select " +
+			" 	new br.com.caelum.financas.mb.ValoresPorMesEAno(month(m.data), year(m.data), sum(m.valor)) " +
+			"from " +
+			"   Movimentacao m " +
+			"where " +
+			"	m.tipoMovimentacao = :tipo and " +
+			"	m.conta = :conta " +
+			"group by " +
+			"	month(m.data), year(m.data) ";
+		
+		TypedQuery<ValoresPorMesEAno> query = manager.createQuery(jpql, ValoresPorMesEAno.class);
+		query.setParameter("tipo", tipoMovimentacao);
+		query.setParameter("conta", conta);
+		
+		return query.getResultList();
+	}
 	
 }
