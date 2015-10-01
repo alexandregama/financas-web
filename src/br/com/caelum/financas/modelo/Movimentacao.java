@@ -81,4 +81,12 @@ public class Movimentacao implements Serializable {
 		this.conta = conta;
 	}
 
+	public boolean isEntrada() {
+		return this.tipoMovimentacao.equals(TipoMovimentacao.ENTRADA);
+	}
+	
+	public boolean isSaida() {
+		return this.tipoMovimentacao.equals(TipoMovimentacao.SAIDA);
+	}
+
 }

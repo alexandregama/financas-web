@@ -1,12 +1,16 @@
 package br.com.caelum.financas.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import br.com.caelum.financas.exception.ValorMuitoAltoException;
 import br.com.caelum.financas.modelo.Movimentacao;
 
 @Stateless
@@ -14,9 +18,27 @@ public class MovimentacaoDao {
 
 	@PersistenceContext
 	private EntityManager manager;
+	
+	@PostConstruct
+	public void posContrucao() {
+		System.out.println("Bean de Movimentacao construido");
+	}
 
-	public void adiciona(Movimentacao movimentacao) {
+	public void adiciona(Movimentacao movimentacao) throws Exception {
+		
 		manager.persist(movimentacao);
+		
+		if (movimentacao.getValor().compareTo(BigDecimal.ZERO) == -1) {
+			throw new RuntimeException("O valor não pode ser negativo - sua transação sofreu Rollback");
+		}
+		
+		if (movimentacao.getValor().compareTo(new BigDecimal(1000)) == 1 && movimentacao.isEntrada()) {
+			throw new Exception("O valor não pode ser maior que 1000 e de Entrada - mas sua transação foi comitada");
+		}
+		
+		if (movimentacao.getValor().compareTo(new BigDecimal(3000)) == 1 && movimentacao.isSaida()) {
+			throw new ValorMuitoAltoException("O valor nao pode ser acima de 3000 e de Saida - mas sua transacao foi comitada");
+		}
 	}
 
 	public Movimentacao busca(Integer id) {
@@ -40,4 +62,9 @@ public class MovimentacaoDao {
 		manager.remove(movimentacaoParaRemover);
 	}
 
+	@PreDestroy
+	public void destroy() {
+		System.out.println("Bean de Movimentacao destruido");
+	}
+	
 }

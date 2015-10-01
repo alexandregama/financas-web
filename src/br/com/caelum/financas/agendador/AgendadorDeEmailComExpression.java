@@ -16,7 +16,7 @@ public class AgendadorDeEmailComExpression {
 	
 	public void agenda(String minutos, String segundos) {
 		ScheduleExpression expression = new ScheduleExpression();
-		expression.hour("*");
+		expression.hour("1");
 		expression.minute(minutos);
 		expression.second(segundos);
 		

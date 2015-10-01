@@ -39,7 +39,11 @@ public class MovimentacoesBean implements Serializable {
 	public void grava() {
 		Conta conta = contaDao.busca(contaId);
 		movimentacao.setConta(conta);
-		movimentacaoDao.adiciona(movimentacao);
+		try {
+			movimentacaoDao.adiciona(movimentacao);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		limpaFormularioDoJSF();
 	}
