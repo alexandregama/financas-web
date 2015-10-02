@@ -11,7 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
+@NamedQuery(name = "movimentacao.listaPorConta", query = "select m from Movimentacao m where m.conta = :conta")
 @Entity
 public class Movimentacao implements Serializable {
  

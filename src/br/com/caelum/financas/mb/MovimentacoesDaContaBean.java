@@ -30,6 +30,10 @@ public class MovimentacoesDaContaBean {
 	public void lista() {
 		movimentacoes = movimentacaoDao.listaPorConta(conta);
 	}
+	
+	public void listaPorNamedQuery() {
+		movimentacoes = movimentacaoDao.listaPorContaPorNamedQuery(conta);
+	}
 
 	public List<Movimentacao> getMovimentacoes() {
 		return movimentacoes;
