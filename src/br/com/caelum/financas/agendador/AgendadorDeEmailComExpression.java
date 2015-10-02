@@ -16,7 +16,7 @@ public class AgendadorDeEmailComExpression {
 	
 	public void agenda(String minutos, String segundos) {
 		ScheduleExpression expression = new ScheduleExpression();
-		expression.hour("1");
+		expression.hour("7");
 		expression.minute(minutos);
 		expression.second(segundos);
 		
@@ -27,7 +27,12 @@ public class AgendadorDeEmailComExpression {
 	
 	@Timeout
 	public void executa(Timer timer) {
-		System.out.println("Enviando email utilizando Expression do TimerService");
+		System.out.println("Enviando email utilizando Expression do TimerService agendado pelo Usuario");
+	}
+	
+	//@Timeout Com 2 TimeOuts a aplicação não sobe - DeploymentUnitProcessingException
+	public void executaOutroTimeout(Timer timer) {
+		System.out.println("Outro envio de email utilizando Expression do TimerService agendado pelo Usuario");
 	}
 	
 }
