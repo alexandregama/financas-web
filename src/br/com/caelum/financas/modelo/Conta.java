@@ -20,6 +20,17 @@ public class Conta implements Serializable {
 	private String numero;
 	private String banco;
 
+	public Conta(String titular, String agencia, String numero,
+			String banco) {
+		this.titular = titular;
+		this.agencia = agencia;
+		this.numero = numero;
+		this.banco = banco;
+	}
+	
+	public Conta() {
+	}
+
 	@Override
 	public String toString() {
 		return "Conta [id=" + id + ", titular=" + titular + ", agencia="

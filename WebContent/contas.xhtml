@@ -34,7 +34,11 @@
 			        	<h:inputText id="numero" value="#{contasBean.conta.numero}"/>
 			        	<h:message for="numero" />
 			        	
-			        	<h:commandButton value="Gravar" action="#{contasBean.grava}"/> 
+			        	<h:commandButton value="Gravar" action="#{contasBean.gravaDefault}"/> 
+			        	<h:commandButton value="Gravar Com Required" action="#{contasBean.gravaComRequired}"/> 
+			        	<h:commandButton value="Gravar Com Requires New" action="#{contasBean.gravaComTransacaoRequiresNew}"/> 
+			        	<h:commandButton value="Gravar Com Never" action="#{contasBean.gravaComTransacaoNever}"/> 
+			        	<h:commandButton value="Gravar Com Mandatory" action="#{contasBean.gravaComTransacaoMandatory}"/> 
 			        </h:panelGrid>
 			    </f:validateBean>
 	        </h:form>

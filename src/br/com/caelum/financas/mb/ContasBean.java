@@ -3,6 +3,9 @@ package br.com.caelum.financas.mb;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -30,14 +33,51 @@ public class ContasBean implements Serializable {
 	@Deprecated //default constructor for CDI 
 	ContasBean() {
 	}
+	
+	@PostConstruct
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public void posConstrucao() {
+		conta = new Conta("Gustavo", "11111", "22222", "Bradesco");
+		contaDao.adicionaComRequired(conta);
+	}
 
-	public void grava() {
+	public void gravaComRequired() {
 		if (conta.getId() == null) {
-			contaDao.adiciona(conta);
+			contaDao.adicionaComRequired(conta);
 		} else {
 			contaDao.atualiza(conta);
 		}
-
+		
+		limpaFormularioDoJSF();
+	}
+	
+	public void gravaComTransacaoRequiresNew() {
+		if (conta.getId() == null) {
+			contaDao.adicionaComRequiresNew(conta);
+		} else {
+			contaDao.atualiza(conta);
+		}
+		
+		limpaFormularioDoJSF();
+	}
+	
+	public void gravaComTransacaoNever() {
+		if (conta.getId() == null) {
+			contaDao.adicionaComNever(conta);
+		} else {
+			contaDao.atualiza(conta);
+		}
+		
+		limpaFormularioDoJSF();
+	}
+	
+	public void gravaComTransacaoMandatory() {
+		if (conta.getId() == null) {
+			contaDao.adicionaComMandatory(conta);
+		} else {
+			contaDao.atualiza(conta);
+		}
+		
 		limpaFormularioDoJSF();
 	}
 
