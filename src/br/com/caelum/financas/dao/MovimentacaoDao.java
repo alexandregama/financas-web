@@ -1,6 +1,7 @@
 package br.com.caelum.financas.dao;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,7 +12,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import br.com.caelum.financas.exception.ValorMuitoAltoException;
+import br.com.caelum.financas.mb.ValoresPorMesEAno;
+import br.com.caelum.financas.modelo.Conta;
 import br.com.caelum.financas.modelo.Movimentacao;
+import br.com.caelum.financas.modelo.TipoMovimentacao;
 
 @Stateless
 public class MovimentacaoDao {
@@ -41,6 +45,16 @@ public class MovimentacaoDao {
 		}
 	}
 
+	public List<Movimentacao> listaPorConta(Conta conta) {
+		String jpql = 
+				"select m from Movimentacao m where m.conta = :conta " + 
+				"order by m.valor desc";
+		TypedQuery<Movimentacao> query = manager.createQuery(jpql, Movimentacao.class);
+		query.setParameter("conta", conta);
+		
+		return query.getResultList();
+	}
+	
 	public Movimentacao busca(Integer id) {
 		return manager.find(Movimentacao.class, id);
 	}
@@ -65,6 +79,96 @@ public class MovimentacaoDao {
 	@PreDestroy
 	public void destroy() {
 		System.out.println("Bean de Movimentacao destruido");
+	}
+
+	public List<Movimentacao> listaPorValorETipo(BigDecimal valor,
+			TipoMovimentacao tipoMovimentacao) {
+		String jpql = 
+				"select m from Movimentacao m " + 
+				"where " +
+				"m.valor <= :valor and " +
+				"m.tipoMovimentacao = :tipo";
+		TypedQuery<Movimentacao> query = manager.createQuery(jpql, Movimentacao.class);
+		query.setParameter("valor", valor);
+		query.setParameter("tipo", tipoMovimentacao);
+		
+		return query.getResultList();
+	}
+
+	public BigDecimal getTotalPorContaETipo(Conta conta,
+			TipoMovimentacao tipoMovimentacao) {
+		String jpql = 
+			"select sum(m.valor) from Movimentacao m " +
+			"where "+
+			"	m.conta = :conta and " +
+			"	m.tipoMovimentacao = :tipo";
+		TypedQuery<BigDecimal> query = manager.createQuery(jpql, BigDecimal.class);
+		query.setParameter("conta", conta);
+		query.setParameter("tipo", tipoMovimentacao);
+		
+		return query.getSingleResult();
+	}
+
+	public List<Movimentacao> buscaPorTitular(String titular) {
+		String jpql = 
+			"select m from Movimentacao m " +
+			"where m.conta.titular like :titular";
+		TypedQuery<Movimentacao> query = manager.createQuery(jpql, Movimentacao.class);
+		query.setParameter("titular", "%"+titular+"%");
+		
+		return query.getResultList();
+	}
+
+	public List<ValoresPorMesEAno> buscaPorMesEAnoUsandoArray(Conta conta,
+			TipoMovimentacao tipoMovimentacao) {
+		String jpql = 
+			"select " +
+			"	month(m.data), year(m.data), sum(m.valor) " +
+			"from " +
+			"	Movimentacao m " +
+			"where " +
+			"	m.tipoMovimentacao = :tipo and " +		
+			"	m.conta = :conta " +
+			"group by " +
+			"	month(m.data), year(m.data) ";
+		
+		TypedQuery<Object[]> query = manager.createQuery(jpql, Object[].class);
+		query.setParameter("tipo", tipoMovimentacao);
+		query.setParameter("conta", conta);
+		
+		List<Object[]> lista = query.getResultList();
+		
+		List<ValoresPorMesEAno> estatisticas = new ArrayList<>();
+		for (Object[] linha : lista) {
+			int mes = (int) linha[0];
+			int ano = (int) linha[1];
+			BigDecimal valor = new BigDecimal( String.valueOf(linha[2]));
+			
+			ValoresPorMesEAno estatistica = new ValoresPorMesEAno(mes, ano, valor);
+			estatisticas.add(estatistica);
+		}
+		
+		return estatisticas;
+	}
+
+	public List<ValoresPorMesEAno> buscaPorMesEAnoUsandoConstructorExpression(
+			Conta conta, TipoMovimentacao tipoMovimentacao) {
+		String jpql = 
+			"select " +
+			" 	new br.com.caelum.financas.mb.ValoresPorMesEAno(month(m.data), year(m.data), sum(m.valor)) " +
+			"from " +
+			"   Movimentacao m " +
+			"where " +
+			"	m.tipoMovimentacao = :tipo and " +
+			"	m.conta = :conta " +
+			"group by " +
+			"	month(m.data), year(m.data) ";
+		
+		TypedQuery<ValoresPorMesEAno> query = manager.createQuery(jpql, ValoresPorMesEAno.class);
+		query.setParameter("tipo", tipoMovimentacao);
+		query.setParameter("conta", conta);
+		
+		return query.getResultList();
 	}
 	
 }
