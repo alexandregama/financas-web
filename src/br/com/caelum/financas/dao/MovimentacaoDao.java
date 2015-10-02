@@ -8,7 +8,9 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
 import javax.persistence.TypedQuery;
 
 import br.com.caelum.financas.exception.ValorMuitoAltoException;
@@ -197,6 +199,17 @@ public class MovimentacaoDao {
 		query.setParameter("conta", conta);
 		
 		return query.getResultList();
+	}
+
+	public BigDecimal getTotalPorContaUsandoProcedure(Conta conta) {
+		StoredProcedureQuery procedure = manager.createStoredProcedureQuery("SomaTotalMovimentacao");
+		procedure.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+		procedure.registerStoredProcedureParameter(2, BigDecimal.class, ParameterMode.OUT);
+		procedure.setParameter(1, conta.getId());
+		procedure.execute();
+		BigDecimal total = (BigDecimal) procedure.getOutputParameterValue(2);
+		
+		return total;
 	}
 	
 }
