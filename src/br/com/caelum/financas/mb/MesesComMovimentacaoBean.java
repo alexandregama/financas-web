@@ -1,5 +1,6 @@
 package br.com.caelum.financas.mb;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import br.com.caelum.financas.dao.MovimentacaoDao;
@@ -21,6 +22,8 @@ public class MesesComMovimentacaoBean {
 	private MovimentacaoDao movimentacaoDao;
 	
 	private List<ValoresPorMesEAno> valoresPorMesEAno;
+	
+	private BigDecimal valorMinimo;
 
 	@Inject
 	public MesesComMovimentacaoBean(MovimentacaoDao movimentacaoDao) {
@@ -34,6 +37,11 @@ public class MesesComMovimentacaoBean {
 	public void lista() {
 		System.out.println("Listando as contas pelos valores movimentados no mes");
 		valoresPorMesEAno = movimentacaoDao.buscaPorMesEAnoUsandoConstructorExpression(conta, tipoMovimentacao);
+	}
+	
+	public void listaValorMinimo() {
+		System.out.println("Listando as contas pelos valores movimentados no mes utilizando Having");
+		valoresPorMesEAno = movimentacaoDao.buscaPorMesEAnoUsandoConstructorExpressionEHaving(conta, tipoMovimentacao, valorMinimo);
 	}
 
 	public TipoMovimentacao getTipoMovimentacao() {
@@ -50,6 +58,14 @@ public class MesesComMovimentacaoBean {
 	
 	public List<ValoresPorMesEAno> getValoresPorMesEAno() {
 		return valoresPorMesEAno;
+	}
+
+	public BigDecimal getValorMinimo() {
+		return valorMinimo;
+	}
+
+	public void setValorMinimo(BigDecimal valorMinimo) {
+		this.valorMinimo = valorMinimo;
 	}
 
 }
