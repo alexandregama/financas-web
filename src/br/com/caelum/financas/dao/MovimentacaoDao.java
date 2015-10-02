@@ -191,5 +191,12 @@ public class MovimentacaoDao {
 		
 		return query.getResultList();
 	}
+
+	public List<Movimentacao> listaPorContaPorNamedQuery(Conta conta) {
+		TypedQuery<Movimentacao> query = manager.createNamedQuery("movimentacao.listaPorConta", Movimentacao.class);
+		query.setParameter("conta", conta);
+		
+		return query.getResultList();
+	}
 	
 }
