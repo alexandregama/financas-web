@@ -9,7 +9,7 @@ import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
 
 @Stateless
-public class AgendadorDeEmailComExpression {
+public class AgendadorDeEmailComExpressionPersistente {
 
 	@Resource
 	private TimerService timer;
@@ -21,7 +21,7 @@ public class AgendadorDeEmailComExpression {
 		expression.second(segundos);
 		
 		TimerConfig config = new TimerConfig();
-		config.setPersistent(false);
+		config.setPersistent(true);
 		timer.createCalendarTimer(expression, config);
 	}
 	
