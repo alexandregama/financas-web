@@ -170,5 +170,26 @@ public class MovimentacaoDao {
 		
 		return query.getResultList();
 	}
+
+	public List<ValoresPorMesEAno> buscaPorMesEAnoUsandoConstructorExpressionEHaving(
+			Conta conta, TipoMovimentacao tipoMovimentacao, BigDecimal valorMinimo) {
+		String jpql = 
+			"select " +
+			" 	new br.com.caelum.financas.mb.ValoresPorMesEAno(month(m.data), year(m.data), sum(m.valor)) " +
+			"from " +		
+			" 	Movimentacao m " +		
+			"where " +		
+			" 	m.tipoMovimentacao = :tipo and " +		
+			" 	m.conta = :conta " +		
+			"group by " +		
+			" 	month(m.data), year(m.data) having sum(m.valor) >= :valorMinimo";
+		
+		TypedQuery<ValoresPorMesEAno> query = manager.createQuery(jpql, ValoresPorMesEAno.class);
+		query.setParameter("tipo", tipoMovimentacao);
+		query.setParameter("conta", conta);
+		query.setParameter("valorMinimo", valorMinimo);
+		
+		return query.getResultList();
+	}
 	
 }
