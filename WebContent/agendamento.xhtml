@@ -15,6 +15,10 @@
 
 		<h:form>
 			<h:panelGrid columns="3">
+			<h:outputText value="Expressão Horas:" />
+			<h:inputText value="#{agendadorFormBean.expressaoHoras}" />	  
+			<h:outputText value="Exemplos: * - cada hora" />
+			
 			<h:outputText value="Expressão Minutos:" />
 			<h:inputText value="#{agendadorFormBean.expressaoMinutos}" />	  
 			<h:outputText value="Exemplos: */1 - cada minuto, 10 - as 10 minutos" />
@@ -25,6 +29,8 @@
 
 			 
 			<h:commandButton value="Submeter agendamento" actionListener="#{agendadorFormBean.agendar}"/>
+			
+			<h:commandButton value="Submeter agendamento persistente" actionListener="#{agendadorFormBean.agendarPersistindo}"/>
 			</h:panelGrid>
 		</h:form>
 	    
