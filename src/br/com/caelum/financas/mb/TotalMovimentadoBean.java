@@ -32,6 +32,11 @@ public class TotalMovimentadoBean {
 		System.out.println("Total movimentado pela conta");
 		total = movimentacaoDao.getTotalPorContaETipo(conta, tipoMovimentacao);
 	}
+	
+	public void calculaPorProcedure() {
+		System.out.println("Total movimentado pela conta");
+		total = movimentacaoDao.getTotalPorContaUsandoProcedure(conta);
+	}
 
 	public BigDecimal getTotal() {
 		return total;
