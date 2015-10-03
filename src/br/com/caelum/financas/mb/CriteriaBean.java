@@ -2,7 +2,9 @@ package br.com.caelum.financas.mb;
 
 import java.math.BigDecimal;
 import java.util.List;
+
 import br.com.caelum.financas.modelo.Movimentacao;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 

@@ -3,7 +3,9 @@ package br.com.caelum.financas.mb;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.validation.ConstraintViolation;
+
 import br.com.caelum.financas.modelo.Conta;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
