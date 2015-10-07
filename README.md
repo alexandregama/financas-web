@@ -122,3 +122,33 @@ public class Conta {
 Dependencies: org.hibernate
 ```
 
+### Estratégias para invalidar o Cache
+
+O infinispan possui um limite para armazenar os objetos. Quando o limite é atingido, ele invalida o Cache. Existem 3 formas de invalidação do Cache:
+
+- LFU - Less Frequently Used
+- LRU - Least Recently Used
+- FIFO - First in First out
+
+O padrão do Inifnispam é o LRU, onde o objeto **menos utilizado recentemente** é descartado.
+Essa estratégia pode ser modificada no arquivo de configuração **standalone/configuration/standalone.xml**
+
+```xml
+<cache-container name="hibernate" default-cache="local-query" module="org.hibernate">
+    <local-cache name="entity">
+        <transaction mode="NON_XA"/>
+        <eviction strategy="LRU" max-entries="10000"/>
+        <expiration max-idle="100000"/>
+    </local-cache>
+    <local-cache name="local-query">
+        <transaction mode="NONE"/>
+        <eviction strategy="LRU" max-entries="10000"/>
+        <expiration max-idle="100000"/>
+    </local-cache>
+    <local-cache name="timestamps">
+        <transaction mode="NONE"/>
+        <eviction strategy="NONE"/>
+    </local-cache>
+</cache-container>
+```
+
