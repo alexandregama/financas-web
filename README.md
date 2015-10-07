@@ -111,9 +111,14 @@ public class Conta {
 }
 ```
 
-- Podemos ainda fazer o cache de collections, como abaixo:
+- Podemos ainda fazer o cache de collections usando **@Cache**, como abaixo:
 ```java
   @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL) //Também suporta o READ_ONLY
   private List<Movimentacao> movimentacoes;
+```
+
+- Como **@Cache** é uma annotation específica do Hibernate, precisamos adicionar essa dependência no Wildfly. No **WebContent/WEB-INF** devemos adicionar no **MANIFEST.MF**
+```
+Dependencies: org.hibernate
 ```
 
