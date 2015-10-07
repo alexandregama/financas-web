@@ -152,3 +152,12 @@ Essa estratégia pode ser modificada no arquivo de configuração **standalone/c
 </cache-container>
 ```
 
+### Cache de Queries
+
+Também podemos fazer o cache de queries utilizando o **org.hibernate.cacheable** na query a ser executada:
+
+```java
+Query query = manager.createQuery(sql);
+
+query.setHint("org.hibernate.cacheable");
+```
