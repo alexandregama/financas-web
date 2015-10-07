@@ -130,7 +130,7 @@ O infinispan possui um limite para armazenar os objetos. Quando o limite é atin
 - LRU - Least Recently Used
 - FIFO - First in First out
 
-O padrão do Inifnispam é o LRU, onde o objeto **menos utilizado recentemente** é descartado.
+O padrão do Infinispan é o LRU, onde o objeto **menos utilizado recentemente** é descartado.
 Essa estratégia pode ser modificada no arquivo de configuração **standalone/configuration/standalone.xml**
 
 ```xml
