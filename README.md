@@ -85,3 +85,35 @@ Altere o valor do **max-pool-size** da tag xml **bean-instance-pools**:
     </bean-instance-pools>
 </pools>
 ```
+
+
+## Second Level Cache - Infinispan
+
+Agora temos o Infinispan no lugar do JBoss Cache para fazer o second level cache
+Para habilitar o second level cache precisamos das seguintes configurações:
+
+- Editar o arquivo **persistence.xml** e adicionar:
+```xml
+<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+```
+
+- Ainda no **persistence.xml** devemos indicar para o Hibernateque vamos usar o second level cache
+```xml
+<property name="hibernate.cache.use_second_level_cache" value="true" />
+```
+
+- Agora basta adicionar a annotation **@Cacheable** na entidade a ser adicionada no Cache
+```java
+@Cacheable
+@Entity
+public class Conta {
+
+}
+```
+
+- Podemos ainda fazer o cache de collections, como abaixo:
+```java
+  @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL) //Também suporta o READ_ONLY
+  private List<Movimentacao> movimentacoes;
+```
+
