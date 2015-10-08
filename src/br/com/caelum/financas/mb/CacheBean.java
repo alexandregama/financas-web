@@ -1,6 +1,7 @@
 package br.com.caelum.financas.mb;
 
 import br.com.caelum.financas.modelo.Conta;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
