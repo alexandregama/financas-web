@@ -1,13 +1,21 @@
 package br.com.caelum.financas.modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
+@Cacheable
 public class Conta implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -20,14 +28,17 @@ public class Conta implements Serializable {
 	private String numero;
 	private String banco;
 
-	public Conta(String titular, String agencia, String numero,
-			String banco) {
+	@OneToMany(mappedBy = "conta")
+	@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
+	private List<Movimentacao> movimentacoes = new ArrayList<>();
+
+	public Conta(String titular, String agencia, String numero, String banco) {
 		this.titular = titular;
 		this.agencia = agencia;
 		this.numero = numero;
 		this.banco = banco;
 	}
-	
+
 	public Conta() {
 	}
 
@@ -75,6 +86,10 @@ public class Conta implements Serializable {
 
 	public void setBanco(String banco) {
 		this.banco = banco;
+	}
+
+	public int getQuantidadeDeMovimentacoes() {
+		return this.movimentacoes.size();
 	}
 
 }

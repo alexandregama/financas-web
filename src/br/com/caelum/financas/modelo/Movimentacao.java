@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 
+@Cacheable
 @NamedQuery(name = "movimentacao.listaPorConta", query = "select m from Movimentacao m where m.conta = :conta")
 @Entity
 public class Movimentacao implements Serializable {
@@ -26,7 +28,7 @@ public class Movimentacao implements Serializable {
 	private Calendar data;
 	private BigDecimal valor;
 	
-	@ManyToOne 
+	@ManyToOne
 	private Conta conta;
 	
 	@Enumerated(EnumType.STRING)
