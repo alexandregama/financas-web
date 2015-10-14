@@ -37,8 +37,8 @@ public class ContasBean implements Serializable {
 	@PostConstruct
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void posConstrucao() {
-		conta = new Conta("Gustavo", "11111", "22222", "Bradesco");
-		contaDao.adicionaComRequired(conta);
+//		conta = new Conta("Gustavo", "11111", "22222", "Bradesco"); Apenas teste de insert no @PostConstruct
+//		contaDao.adicionaComRequired(conta);
 	}
 
 	public void gravaComRequired() {

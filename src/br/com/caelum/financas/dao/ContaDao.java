@@ -9,9 +9,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
 import br.com.caelum.financas.exception.ContaAgenciaInvalidaException;
@@ -22,7 +21,8 @@ import br.com.caelum.financas.modelo.Conta;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class ContaDao {
 
-	@PersistenceContext
+	// @PersistenceContext Comentado para usar o OpenSessionInView
+	@Inject
 	private EntityManager manager;
 	
 	@PostConstruct
