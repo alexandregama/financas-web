@@ -41,6 +41,16 @@ public class ContasBean implements Serializable {
 //		contaDao.adicionaComRequired(conta);
 	}
 
+	public void gravaDefault() {
+		if (conta.getId() != null) {
+			contaDao.atualiza(conta);
+		} else {
+			contaDao.adicionaComRequired(conta);
+		}
+		
+		limpaFormularioDoJSF();
+	}
+	
 	public void gravaComRequired() {
 		if (conta.getId() == null) {
 			contaDao.adicionaComRequired(conta);

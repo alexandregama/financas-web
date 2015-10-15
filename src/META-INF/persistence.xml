@@ -21,6 +21,9 @@
 			
 			<!-- Configuracao para habilitar o cache para queries -->
 			<property name="hibernate.cache.use_query_cache" value="true"/>
+			
+			<!-- Configuracao para habilitar a geracao de estatisticas do Hibernate -->
+			<property name="hibernate.generate_statistics" value="true"/>
 
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
