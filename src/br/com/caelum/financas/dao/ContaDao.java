@@ -1,6 +1,7 @@
 package br.com.caelum.financas.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -14,6 +15,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.TypedQuery;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.hibernate.StaleObjectStateException;
 
@@ -41,7 +46,23 @@ public class ContaDao {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) //default
 	public void adicionaComRequired(Conta conta) {
-		adiciona(conta); 
+		adiciona(conta);
+	}
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRED) //default
+	public void adicionaComRequiredValidandoNaUnhaComBeanValidation(Conta conta) {
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		
+		Set<ConstraintViolation<Conta>> erros = validator.validate(conta);
+		if (erros.isEmpty()) {
+			adiciona(conta); 
+		} else {
+			for (ConstraintViolation<Conta> erro: erros) {
+				System.out.println(erro.getMessage());
+				System.out.println(erro.getPropertyPath());
+			}
+		}
 	}
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
