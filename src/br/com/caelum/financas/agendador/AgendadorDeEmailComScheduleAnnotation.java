@@ -10,12 +10,12 @@ import javax.ejb.Startup;
 @Startup
 public class AgendadorDeEmailComScheduleAnnotation {
 
-	@Schedule(hour = "8", minute = "32", second = "*", persistent = false)
+	@Schedule(hour = "8", minute = "32", second = "1", persistent = false)
 	public void enviaEmail() {
 		System.out.println("Enviando email utilizando @Schedule");
 	}
 	
-	@Schedule(hour = "8", minute = "32", second = "*", persistent = false) //Podemos ter 2 @Schedule na mesma classe
+	@Schedule(hour = "8", minute = "32", second = "1", persistent = false) //Podemos ter 2 @Schedule na mesma classe
 	public void enviaEmailComOutroSchedule() {
 		System.out.println("Enviando outro email utilizando @Schedule");
 	}

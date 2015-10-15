@@ -11,6 +11,7 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.TypedQuery;
 
 import br.com.caelum.financas.exception.ContaAgenciaInvalidaException;
@@ -88,6 +89,14 @@ public class ContaDao {
 		Conta contaParaRemover = this.manager.find(Conta.class, conta.getId());
 
 		manager.remove(contaParaRemover);
+	}
+
+	public void lockar(Conta conta) {
+		System.out.println("Vai buscar a conta pra Lockar");
+		Conta contaParaLockar = manager.find(Conta.class, conta.getId());
+		System.out.println("Buscou a conta e vai lockar");
+		manager.lock(contaParaLockar, LockModeType.PESSIMISTIC_WRITE);
+		System.out.println("Conta Lockada");
 	}
 
 }
