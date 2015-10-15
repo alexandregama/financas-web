@@ -42,6 +42,14 @@
 	        <h:outputText value="Query Cache Miss: #{estatisticasBean.estatisticas.queryCacheMissCount }" /><br />
 	        <h:outputText value="Query Cache Put: #{estatisticasBean.estatisticas.queryCachePutCount }" /><br />
 	        <h:outputText value="Slowest query: #{estatisticasBean.estatisticas.queryExecutionMaxTime }" /><br />
+	        
+	        <h3>Movimentacao Estatistica</h3>
+	        <h:outputText value="Load Count: #{estatisticasBean.movimentacaoEntityStatistics.loadCount }" /><br />
+	        <h:outputText value="Fetch Count: #{estatisticasBean.movimentacaoEntityStatistics.fetchCount }" /><br />
+	        
+	        <h3>Conta Estatistica</h3>
+	        <h:outputText value="Load Count: #{estatisticasBean.contaEntityStatistics.loadCount }" /><br />
+	        <h:outputText value="Fetch Count: #{estatisticasBean.contaEntityStatistics.fetchCount }" /><br />
 		</ui:define>
 	</ui:composition>
 </html>
