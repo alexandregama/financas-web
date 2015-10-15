@@ -16,16 +16,40 @@
 	    	</h:form>
 	    	<hr />
 	    	
-	        <h:outputText value="EntityManagers abertas: #{estatisticasBean.estatisticas.sessionOpenCount }" /><br />
-	        <h:outputText value="EntityManagers fechadas: #{estatisticasBean.estatisticas.sessionCloseCount }" /><br />
-	        <h:outputText value="Query Cache Hit: #{estatisticasBean.estatisticas.queryCacheHitCount }" /><br />
-	        <h:outputText value="Query Cache Miss: #{estatisticasBean.estatisticas.queryCacheMissCount }" /><br />
-	        <h:outputText value="Query Cache Put: #{estatisticasBean.estatisticas.queryCachePutCount }" /><br />
+	    	<h3>Connections</h3>
+	        <h:outputText value="Connections Requests: #{estatisticasBean.estatisticas.connectCount }" /><br />
+	        <h:outputText value="Flushed Sessions: #{estatisticasBean.estatisticas.flushCount }" /><br />
+	        
+	    	<h3>Transactions</h3>
+	        <h:outputText value="Transactions Count (Failed/Successful): #{estatisticasBean.estatisticas.transactionCount }" /><br />
+	        <h:outputText value="Successful Transactions Count: #{estatisticasBean.estatisticas.successfulTransactionCount }" /><br />
+	        
+	    	<h3>Sessions</h3>
+	        <h:outputText value="Sessions Opened: #{estatisticasBean.estatisticas.sessionOpenCount }" /><br />
+	        <h:outputText value="Sessions Closed: #{estatisticasBean.estatisticas.sessionCloseCount }" /><br />
+	        
+	    	<h3>Second Level Cache</h3>
 	        <h:outputText value="Second Level Cache Hit: #{estatisticasBean.estatisticas.secondLevelCacheHitCount }" /><br />
 	        <h:outputText value="Second Level Cache Miss: #{estatisticasBean.estatisticas.secondLevelCacheMissCount }" /><br />
 	        <h:outputText value="Second Level Cache Put: #{estatisticasBean.estatisticas.secondLevelCachePutCount }" /><br />
+	        
+	        <h3>Queries</h3>
+	        <h:outputText value="Queries: #{estatisticasBean.estatisticas.queries }" /><br />
+	        <h:outputText value="Queries executed: #{estatisticasBean.estatisticas.queryExecutionCount }" /><br />
 	        <h:outputText value="Query Execution Count: #{estatisticasBean.estatisticas.queryExecutionCount }" /><br />
 	        <h:outputText value="Query mais lenta: #{estatisticasBean.estatisticas.queryExecutionMaxTime} ms" /><br />
+	        <h:outputText value="Query Cache Hit: #{estatisticasBean.estatisticas.queryCacheHitCount }" /><br />
+	        <h:outputText value="Query Cache Miss: #{estatisticasBean.estatisticas.queryCacheMissCount }" /><br />
+	        <h:outputText value="Query Cache Put: #{estatisticasBean.estatisticas.queryCachePutCount }" /><br />
+	        <h:outputText value="Slowest query: #{estatisticasBean.estatisticas.queryExecutionMaxTime }" /><br />
+	        
+	        <h3>Movimentacao Estatistica</h3>
+	        <h:outputText value="Load Count: #{estatisticasBean.movimentacaoEntityStatistics.loadCount }" /><br />
+	        <h:outputText value="Fetch Count: #{estatisticasBean.movimentacaoEntityStatistics.fetchCount }" /><br />
+	        
+	        <h3>Conta Estatistica</h3>
+	        <h:outputText value="Load Count: #{estatisticasBean.contaEntityStatistics.loadCount }" /><br />
+	        <h:outputText value="Fetch Count: #{estatisticasBean.contaEntityStatistics.fetchCount }" /><br />
 		</ui:define>
 	</ui:composition>
 </html>

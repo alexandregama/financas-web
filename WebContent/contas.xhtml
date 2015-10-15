@@ -14,8 +14,8 @@
 	        <h:form>
 	        	<f:validateBean disabled="true">
 			        <h:panelGrid columns="3">
-			        	<h:outputText value="Id" rendered="#{contasBean.conta.id!=null}" />
-			        	<h:inputText id="id" value="#{contasBean.conta.id}" rendered="#{contasBean.conta.id!=null}" readonly="true"/>
+			        	<h:outputText value="Id" rendered="#{contasBean.conta.id != null}" />
+			        	<h:inputText id="id" value="#{contasBean.conta.id}" rendered="#{contasBean.conta.id != null}" readonly="true"/>
 			        	<h:message for="id"  rendered="#{contasBean.conta.id!=null}" />
 			        	
 			        	<h:outputText value="Titular"/>
