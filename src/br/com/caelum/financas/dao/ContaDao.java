@@ -12,7 +12,10 @@ import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
+import javax.persistence.OptimisticLockException;
 import javax.persistence.TypedQuery;
+
+import org.hibernate.StaleObjectStateException;
 
 import br.com.caelum.financas.exception.ContaAgenciaInvalidaException;
 import br.com.caelum.financas.exception.ContaTitularInvalidoException;
@@ -75,7 +78,15 @@ public class ContaDao {
 	}
 
 	public void atualiza(Conta conta) {
-		manager.merge(conta);
+		try {
+			manager.merge(conta);
+		} catch (StaleObjectStateException e) {
+			throw new RuntimeException("Vixi, alguem atualizou na sua frente e seu dado é stale, refaça a operação");
+		} catch (OptimisticLockException e) {
+			throw new RuntimeException("Vixi, alguem atualizou na sua frente e ficou lockado, refaça a operação");
+		} catch (Exception e) {
+			throw new RuntimeException("Vixi, alguma zica aleatória, refaça a operação");
+		}
 	}
 	
 	public List<Conta> lista() {
