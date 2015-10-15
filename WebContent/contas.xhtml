@@ -39,6 +39,7 @@
 			        	<h:commandButton value="Gravar Com Requires New" action="#{contasBean.gravaComTransacaoRequiresNew}"/> 
 			        	<h:commandButton value="Gravar Com Never" action="#{contasBean.gravaComTransacaoNever}"/> 
 			        	<h:commandButton value="Gravar Com Mandatory" action="#{contasBean.gravaComTransacaoMandatory}"/> 
+			        	<h:commandButton value="Lockar Conta" action="#{contasBean.lockar}"/> 
 			        </h:panelGrid>
 			    </f:validateBean>
 	        </h:form>
@@ -70,11 +71,11 @@
 	        	<h:column>
 	        		<f:facet name="header"><h:outputText value="Ações"/></f:facet>
 	        		<h:commandLink value="Remover" action="#{contasBean.remove}">
-					<f:setPropertyActionListener value="#{conta}" target="#{contasBean.conta}"/>
+						<f:setPropertyActionListener value="#{conta}" target="#{contasBean.conta}"/>
 	        		</h:commandLink> |
 	        		<h:commandLink value="Alterar">
-					<f:setPropertyActionListener value="#{conta}" target="#{contasBean.conta}"/>
-	        		</h:commandLink>
+						<f:setPropertyActionListener value="#{conta}" target="#{contasBean.conta}"/>
+	        		</h:commandLink> |
 	        	</h:column>
 	        </h:dataTable>
 	        </h:form>

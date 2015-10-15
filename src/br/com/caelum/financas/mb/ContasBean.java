@@ -104,6 +104,10 @@ public class ContasBean implements Serializable {
 		limpaFormularioDoJSF();
 	}
 
+	public void lockar() {
+		contaDao.lockar(conta);
+	}
+	
 	private void limpaFormularioDoJSF() {
 		conta = new Conta();
 		contas = null; 

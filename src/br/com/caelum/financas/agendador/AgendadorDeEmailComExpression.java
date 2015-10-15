@@ -3,7 +3,6 @@ package br.com.caelum.financas.agendador;
 import javax.annotation.Resource;
 import javax.ejb.ScheduleExpression;
 import javax.ejb.Stateless;
-import javax.ejb.Timeout;
 import javax.ejb.Timer;
 import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
@@ -25,7 +24,7 @@ public class AgendadorDeEmailComExpression {
 		timer.createCalendarTimer(expression, config);
 	}
 	
-	@Timeout
+//	@Timeout comentado somente para nao ficar executando
 	public void executa(Timer timer) {
 		System.out.println("Enviando email utilizando Expression do TimerService agendado pelo Usuario");
 		System.out.println("Informações sobre o Timer:");
