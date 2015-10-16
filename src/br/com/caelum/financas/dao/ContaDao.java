@@ -1,6 +1,7 @@
 package br.com.caelum.financas.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -14,11 +15,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.TypedQuery;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.hibernate.StaleObjectStateException;
 
-import br.com.caelum.financas.exception.ContaAgenciaInvalidaException;
-import br.com.caelum.financas.exception.ContaTitularInvalidoException;
 import br.com.caelum.financas.modelo.Conta;
 
 @Stateless
@@ -41,7 +44,23 @@ public class ContaDao {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) //default
 	public void adicionaComRequired(Conta conta) {
-		adiciona(conta); 
+		adiciona(conta);
+	}
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRED) //default
+	public void adicionaComRequiredValidandoNaUnhaComBeanValidation(Conta conta) {
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		
+		Set<ConstraintViolation<Conta>> erros = validator.validate(conta);
+		if (erros.isEmpty()) {
+			adiciona(conta); 
+		} else {
+			for (ConstraintViolation<Conta> erro: erros) {
+				System.out.println(erro.getMessage());
+				System.out.println(erro.getPropertyPath());
+			}
+		}
 	}
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -63,14 +82,15 @@ public class ContaDao {
 
 	private void adiciona(Conta conta) {
 		manager.persist(conta);
-		
-		if (conta.getTitular().isEmpty()) {
-			throw new ContaTitularInvalidoException("O titular nao pode estar em branco - sua transação não foi comitada e seu bean eliminado");
-		}
-		
-		if (conta.getAgencia().isEmpty()) {
-			throw new ContaAgenciaInvalidaException("A agencia nao pode estar em branco - sua transacao nao será comitada e seu bean será eliminado");
-		}
+
+		//Esta validacao foi comentada pq agora temos a validacao customizada @AgenciaENumero
+//		if (conta.getTitular().isEmpty()) {
+//			throw new ContaTitularInvalidoException("O titular nao pode estar em branco - sua transação não foi comitada e seu bean eliminado");
+//		}
+//		
+//		if (conta.getAgencia().isEmpty()) {
+//			throw new ContaAgenciaInvalidaException("A agencia nao pode estar em branco - sua transacao nao será comitada e seu bean será eliminado");
+//		}
 	}
 
 	public Conta busca(Integer id) {

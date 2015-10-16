@@ -11,12 +11,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.validator.constraints.NotBlank;
+
+import br.com.caelum.financas.validator.AgenciaENumero;
 
 @Entity
 @Cacheable
+@AgenciaENumero
 public class Conta implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,8 +29,13 @@ public class Conta implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@NotBlank(message = "{conta.titular.vazio}")
 	private String titular;
+	
+	@NotNull
 	private String agencia;
+	
 	private String numero;
 	private String banco;
 	

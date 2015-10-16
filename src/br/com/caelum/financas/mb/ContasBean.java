@@ -51,6 +51,16 @@ public class ContasBean implements Serializable {
 		limpaFormularioDoJSF();
 	}
 	
+	public void gravaDefaultValidandoNaUnha() {
+		if (conta.getId() != null) {
+			contaDao.atualiza(conta);
+		} else {
+			contaDao.adicionaComRequiredValidandoNaUnhaComBeanValidation(conta);
+		}
+		
+		limpaFormularioDoJSF();
+	}
+	
 	public void gravaComRequired() {
 		if (conta.getId() == null) {
 			contaDao.adicionaComRequired(conta);
