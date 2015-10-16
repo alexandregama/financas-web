@@ -17,8 +17,11 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotBlank;
 
+import br.com.caelum.financas.validator.AgenciaENumero;
+
 @Entity
 @Cacheable
+@AgenciaENumero
 public class Conta implements Serializable {
 
 	private static final long serialVersionUID = 1L;

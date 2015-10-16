@@ -22,8 +22,6 @@ import javax.validation.ValidatorFactory;
 
 import org.hibernate.StaleObjectStateException;
 
-import br.com.caelum.financas.exception.ContaAgenciaInvalidaException;
-import br.com.caelum.financas.exception.ContaTitularInvalidoException;
 import br.com.caelum.financas.modelo.Conta;
 
 @Stateless
@@ -84,14 +82,15 @@ public class ContaDao {
 
 	private void adiciona(Conta conta) {
 		manager.persist(conta);
-		
-		if (conta.getTitular().isEmpty()) {
-			throw new ContaTitularInvalidoException("O titular nao pode estar em branco - sua transação não foi comitada e seu bean eliminado");
-		}
-		
-		if (conta.getAgencia().isEmpty()) {
-			throw new ContaAgenciaInvalidaException("A agencia nao pode estar em branco - sua transacao nao será comitada e seu bean será eliminado");
-		}
+
+		//Esta validacao foi comentada pq agora temos a validacao customizada @AgenciaENumero
+//		if (conta.getTitular().isEmpty()) {
+//			throw new ContaTitularInvalidoException("O titular nao pode estar em branco - sua transação não foi comitada e seu bean eliminado");
+//		}
+//		
+//		if (conta.getAgencia().isEmpty()) {
+//			throw new ContaAgenciaInvalidaException("A agencia nao pode estar em branco - sua transacao nao será comitada e seu bean será eliminado");
+//		}
 	}
 
 	public Conta busca(Integer id) {
