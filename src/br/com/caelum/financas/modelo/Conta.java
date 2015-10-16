@@ -27,7 +27,7 @@ public class Conta implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@NotBlank
+	@NotBlank(message = "{conta.titular.vazio}")
 	private String titular;
 	
 	@NotNull
